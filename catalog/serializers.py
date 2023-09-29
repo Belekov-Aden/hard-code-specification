@@ -1,26 +1,40 @@
 from rest_framework import serializers
-
-from .models import Product, ProductAccess, Lesson, LessonView
 from django.contrib.auth.models import User
+
+from .models import Product, Lesson, LessonView, ProductAccess
 
 
 class UserSerializers(serializers.ModelSerializer):
-
     class Meta:
         model = User
-        fields = ('username', )
+        fields = ('username',)
 
-class ProductSerializers(serializers.ModelSerializer):
+
+class LessonSerializer(serializers.ModelSerializer):
+    view_time_seconds = serializers.IntegerField() # total_view_time
+    status = serializers.CharField()
+    class Meta:
+        model = Lesson
+        fields = '__all__'
+
+
+class LessonViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LessonView
+        fields = '__all__'
+
+
+class ProductSerializer(serializers.ModelSerializer):
     owner = UserSerializers()
+    lessons = LessonSerializer(many=True, read_only=True)
+    lesson_views = LessonViewSerializer(many=True, read_only=True, source='lessonview_set')
 
     class Meta:
         model = Product
         fields = '__all__'
 
 
-class LessonSerializers(serializers.ModelSerializer):
-    products = ProductSerializers(many=True)
-
+class ProductAccessSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Lesson
+        model = ProductAccess
         fields = '__all__'
