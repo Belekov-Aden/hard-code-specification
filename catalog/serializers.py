@@ -11,8 +11,9 @@ class UserSerializers(serializers.ModelSerializer):
 
 
 class LessonSerializer(serializers.ModelSerializer):
-    view_time_seconds = serializers.IntegerField() # total_view_time
+    view_time_seconds = serializers.IntegerField()
     status = serializers.CharField()
+
     class Meta:
         model = Lesson
         fields = '__all__'
@@ -21,7 +22,7 @@ class LessonSerializer(serializers.ModelSerializer):
 class LessonViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = LessonView
-        fields = '__all__'
+        fields = ['user', 'lesson', 'view_time_seconds', 'status', 'view_date']
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -38,3 +39,14 @@ class ProductAccessSerializers(serializers.ModelSerializer):
     class Meta:
         model = ProductAccess
         fields = '__all__'
+
+
+class ProductStatsSerializer(serializers.ModelSerializer):
+    total_lesson_views = serializers.IntegerField()
+    total_view_time = serializers.IntegerField()
+    total_users = serializers.IntegerField()
+    purchase_percentage = serializers.FloatField()
+
+    class Meta:
+        model = Product
+        fields = ['id', 'name', 'total_lesson_views', 'total_view_time', 'total_users', 'purchase_percentage']

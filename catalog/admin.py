@@ -11,9 +11,9 @@ class LessonAdmin(admin.ModelAdmin):
 
 @admin.register(models.LessonView)
 class LessonViewAdmin(admin.ModelAdmin):
-    list_display = ('lesson', 'view_time_seconds', 'status')
-    list_filter = ('lesson', 'view_time_seconds', 'status')
-    search_fields = ('lesson', 'status')
+    list_display = ('lesson', 'view_time_seconds', 'status', 'view_date')
+    list_filter = ('lesson', 'view_time_seconds', 'status', 'view_date')
+    search_fields = ('lesson', 'status', 'view_date')
 
 
 @admin.register(models.Product)

@@ -33,10 +33,11 @@ class Lesson(models.Model):
 
 class LessonView(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='lessonview')
     view_time_seconds = models.IntegerField(default=0)
     status = models.CharField(max_length=20,
                               choices=[("Просмотрено", "Просмотрено"), ("Не просмотрено", "Не просмотрено")])
+    view_date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         # Проверяем, если просмотрено более 80% урока, устанавливаем статус "Просмотрено"
